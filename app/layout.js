@@ -3,13 +3,13 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Script from 'next/script';
 
-// 1. تعديل الميتا داتا (حذفنا منها themeColor عشان الإيرور)
+// 1. إعدادات الميتا داتا الوصفية للموقع
 export const metadata = {
   title: 'محمد عيسى | خبير براندينج وتصميم',
   description: 'خبير في بناء الهويات البصرية وتصميم المواقع الاحترافية - Micro Ads',
 };
 
-// 2. إضافة تصدير الـ viewport (هنا بنحط لون شريط المتصفح)
+// 2. إعدادات الـ Viewport (تم نقل themeColor هنا لحل مشكلة الـ Build)
 export const viewport = {
   themeColor: '#f5f5f4',
 };
@@ -18,23 +18,23 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl" id="html-tag">
       <head>
-        {/* تحسين سرعة تحميل الخطوط والملفات الخارجية */}
+        {/* تحسين أداء التحميل من السيرفرات الخارجية */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
-        {/* تحميل مسبق للوجو لتحسين الـ LCP */}
+        {/* تحميل مسبق لشعار الموقع لسرعة الظهور */}
         <link rel="preload" as="image" href="/logo.png" />
         
-        {/* الخطوط والأيقونات */}
+        {/* استيراد الخطوط (Cairo) والأيقونات (Font Awesome) */}
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
       </head>
       
       <body className="selection:bg-orange-200 relative">
         
-        {/* أكواد تتبع جوجل - Google Analytics */}
+        {/* كود تتبع إحصائيات جوجل - Google Analytics */}
         <Script 
           src="https://www.googletagmanager.com/gtag/js?id=G-47L3F3EKPF" 
           strategy="afterInteractive" 
@@ -48,14 +48,15 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
-        {/* المكونات الرئيسية التي ستظهر في كل الصفحات */}
+        {/* القائمة العلوية الثابتة */}
         <Navbar />
         
-        {/* عرض محتوى الصفحات المتغيرة */}
+        {/* محتوى الصفحات المتغير */}
         <main>
             {children}
         </main>
         
+        {/* التذييل السفلي */}
         <Footer />
         
       </body>

@@ -1,5 +1,7 @@
-import { connectToDatabase } from '@/lib/db';
-import { processCoreOrder } from '@/lib/helpers';
+import { NextResponse } from 'next/server';
+// استخدمنا المسار المباشر والامتداد .js لضمان الـ Build
+import { connectToDatabase } from '../../../lib/db.js';
+import { processCoreOrder } from '../../../lib/helpers.js';
 
 export async function POST(request) {
     try {
@@ -20,7 +22,7 @@ export async function POST(request) {
         let servicesArray = [];
 
         const catNamesAr = { 'branding': 'هوية بصرية', 'packaging': 'تغليف منتجات', 'digital': 'دعاية رقمية' };
-        const indNamesAr = { 'restaurants': 'مطاعم وكافيهات', 'realestate': 'عقارات', 'medical': 'طبي', 'education': 'تعليم' }; // اختصرتها للتبسيط
+        const indNamesAr = { 'restaurants': 'مطاعم وكافيهات', 'realestate': 'عقارات', 'medical': 'طبي', 'education': 'تعليم' };
 
         servicesRows.forEach(service => {
             totalPrice += Number(service.price);
@@ -40,10 +42,12 @@ export async function POST(request) {
 
         // إدخال الطلب مبدئياً
         const [orderResult] = await db.execute(
-            "INSERT INTO orders (user_id, customer_name, customer_phone, customer_email, payment_method, total_amount, services_ordered, project_brief, status, created_at) VALUES (?, ?, ?, ?, 'visa', ?, ?, ?, 'pending_payment', NOW())",
+            "INSERT INTO orders (user_id, customer_name, customer_phone, customer_email, payment_method, total_amount, services_ordered, project_brief, status) VALUES (?, ?, ?, ?, 'visa', ?, ?, ?, 'pending_payment')",
             [userId || null, customerName, customerPhone, customerEmail, totalPrice, servicesOrdered, projectBrief || 'لا توجد تفاصيل إضافية']
         );
-        const orderId = orderResult.insertId;
+        
+        // ملاحظة: الـ Wrapper في db.js هيرجع insertId مظبوط
+        const orderId = orderResult[0]?.insertId || orderResult.insertId;
 
         // إعدادات Paymob
         const paymobApiKey = process.env.PAYMOB_API_KEY;
@@ -109,5 +113,4 @@ export async function POST(request) {
         console.error("Checkout API Error:", error);
         return NextResponse.json({ error: "حدث خطأ أثناء إعداد عملية الدفع" }, { status: 500 });
     }
-
 }

@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-export default function AccountPage() {
+function AccountContent() {
     const searchParams = useSearchParams();
     
     // حالات المصادقة (Authentication)
@@ -321,5 +321,14 @@ export default function AccountPage() {
 
             </section>
         </main>
+    );
+}
+
+// دالة التغليف النهائية المطلوبة لـ Next.js
+export default function AccountPage() {
+    return (
+        <Suspense fallback={<div className="pt-32 pb-40 text-center font-bold text-[#c2410c]">جاري تحميل البيانات...</div>}>
+            <AccountContent />
+        </Suspense>
     );
 }

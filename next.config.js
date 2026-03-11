@@ -1,12 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
-    // إعدادات الصور لو هترفعها على سيرفر خارجي مستقبلاً
-    images: {
-        domains: ['res.cloudinary.com'],
-    },
+  eslint: {
+    // دي عشان فيرسيل ميرخمش عليك في أي تحذيرات تافهة وقت الـ Build
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

@@ -12,7 +12,6 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "mysql2": "^3.9.0",
-    "lucide-react": "latest"
+    "@vercel/postgres": "latest"
   }
 }

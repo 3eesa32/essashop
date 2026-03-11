@@ -1,19 +1,8 @@
-import mysql from 'mysql2/promise';
-
-let pool;
+import { createPool } from '@vercel/postgres';
 
 export async function connectToDatabase() {
-    if (!pool) {
-        pool = mysql.createPool({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            database: process.env.DB_NAME,
-            port: process.env.DB_PORT || 3306, // التعديل هنا ليدعم بورت السيرفر الخاص بك
-            waitForConnections: true,
-            connectionLimit: 10,
-            queueLimit: 0
-        });
-    }
-    return pool;
+  const pool = createPool({
+    connectionString: process.env.POSTGRES_URL
+  });
+  return pool;
 }

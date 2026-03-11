@@ -1,5 +1,5 @@
-import { connectToDatabase } from '@/app/lib/db';
-import { processCoreOrder } from '@/app/lib/helpers';
+import { connectToDatabase } from '@/lib/db';
+import { processCoreOrder } from '@/lib/helpers';
 
 export async function POST(request) {
     try {
@@ -109,4 +109,5 @@ export async function POST(request) {
         console.error("Checkout API Error:", error);
         return NextResponse.json({ error: "حدث خطأ أثناء إعداد عملية الدفع" }, { status: 500 });
     }
+
 }
